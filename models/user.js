@@ -56,4 +56,4 @@ UserSchema.static('authEmail', function(email, password, callback) {
   });
 });
 
-User = exports.User = mongoose.model('User', UserSchema);
+ User = module.exports = mongoose.model('User', UserSchema);
