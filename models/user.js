@@ -34,9 +34,9 @@ UserSchema.method('checkPassword', function(password, callback) {
   bcrypt.compare(password, this.hash, callback);
 });
 
-UserSchema.static('registerEmail', function(email, password, passwordConfirm, callback) {
+UserSchema.static('registerEmail', function(name, email, password, passwordConfirm, callback) {
   if(password != passwordConfirm) return callback('PASSWORD_MISMATCH', false);
-  var user = new this({ email: email, password: password });
+  var user = new this({ name: name, email: email, password: password });
   user.save(function(err, user) {
     if(err) callback(err, false);
     callback(null, user);

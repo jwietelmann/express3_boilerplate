@@ -1,7 +1,7 @@
 var User = require("../../models").User;
 
 exports.register = function(req, res) {
-  User.registerEmail(req.body.email, req.body.password, req.body.passwordConfirm,
+  User.registerEmail(req.body.name, req.body.email, req.body.password, req.body.passwordConfirm,
     function(err, user) {
       if(err) return res.send(500);
       res.json(user);
