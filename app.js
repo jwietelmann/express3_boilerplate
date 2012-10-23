@@ -79,7 +79,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-
 // API routes
 app.get('/api/me', routes.api.me.show);
 app.get('/api/users/:id', routes.api.users.show);
@@ -95,6 +94,8 @@ app.post('/auth/email',
 );
 app.get('/auth/finish', routes.ui.auth.finish);
 app.get('/auth/signOut', routes.ui.auth.signOut);
+app.get('/me', routes.ui.me.index);
+app.put('/me', routes.ui.me.update);
 app.get('/users/:id', routes.ui.users.show);
 
 server.listen(app.get('port'), function(){

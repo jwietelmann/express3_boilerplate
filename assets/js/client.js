@@ -1,90 +1,72 @@
-//= require bootstrap-manifest
+//= require bootstrapManifest
 //= require underscore
 //= require backbone
+//= require baseClasses
+//= require_tree ./models
 
-window.Boiler = {
-  Models: {},
-  Collections: {},
-  Views: {},
-  Routers: {},
-  Mixins: {}
-};
+(function(App) {
 
-Boiler.Models.Base = Backbone.Model.extend({
-  idAttribute: '_id',
-  urlRoot: function() {
-    return '/api/' + this.resource;
-  }
-});
+  _.extend(App, {
 
-Boiler.Collections.Base = Backbone.Collection.extend({});
-Boiler.Views.Base = Backbone.View.extend({});
-Boiler.Routers.Base = Backbone.Router.extend({});
+    init: function() {
+      var _this = this;
 
-Boiler.Models.User = Boiler.Models.Base.extend({});
-Boiler.Models.Me = Boiler.Models.User.extend({
-  url: function() { return '/api/me' }
-});
+      $(function() {
+        _this.docReady();
+      });
+    },
 
-window.App = {
+    docReady: function() {
+      var _this = this;
 
-  init: function() {
-    var _this = this;
+      this.setupCurrentUser();
 
-    $(function() {
-      _this.docReady();
-    });
-  },
+      $('#signOutButton').on('click', function(e) {
+        e.preventDefault();
+        _this.signOut();
+      });
+    },
 
-  docReady: function() {
-    var _this = this;
+    setSignedIn: function() {
+      $('#currentUser').text(this.user.get('name'));
+      $('body').removeClass('noUser').addClass('hasUser');
+    },
 
-    this.setupCurrentUser();
+    setSignedOut: function() {
+      this.user.clear();
+      $('body').removeClass('hasUser').addClass('noUser');
+    },
 
-    $('#signOut').on('click', function(e) {
-      _this.signOut();
-    });
-  },
+    setupCurrentUser: function() {
+      var _this = this;
 
-  setSignedIn: function() {
-    var name = this.user.get('name');
-    $('#currentUser').text(name ? name : '_NAME_');
-    $('body').removeClass('noUser').addClass('hasUser');
-  },
+      this.user = new App.Models.Me();
+      this.user.fetch({
+        success: function(user) {
+          _this[user.id ? 'setSignedIn' : 'setSignedOut']();
+          $('body').removeClass('userNotFetched');
+        }
+      });
+    },
 
-  setSignedOut: function() {
-    this.user.clear();
-    $('body').removeClass('hasUser').addClass('noUser');
-  },
+    signInComplete: function() {
+      this.setupCurrentUser();
+      $('#signInModal').modal('hide');
+    },
 
-  setupCurrentUser: function() {
-    var _this = this;
+    signOut: function() {
+      var _this = this;
 
-    this.user = new Boiler.Models.Me();
-    this.user.fetch({
-      success: function(user) {
-        _this[user.id ? 'setSignedIn' : 'setSignedOut']();
-        $('body').removeClass('userNotFetched');
-      }
-    });
-  },
+      $.ajax({
+        url: '/auth/signOut',
+        success: function() {
+          _this.setSignedOut();
+        }
+      });
+    }
 
-  signInComplete: function() {
-    this.setupCurrentUser();
-    $('#signInModal').modal('hide');
-  },
+  });
 
-  signOut: function() {
-    var _this = this;
+  App.init();
 
-    $.ajax({
-      url: '/auth/signOut',
-      success: function() {
-        _this.setSignedOut();
-      }
-    });
-  }
-
-};
-
-App.init(); // start the app
+})(window.App);

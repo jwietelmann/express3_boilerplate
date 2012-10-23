@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1= user.name
+  form.form-inline(action='/me', method='post')
+    input(type='hidden', name='_method', value='put')
+    input(type='text', name='email', placeholder='Email', value=user.email)
+    input(type='text', name='name', placeholder='Name', value=user.name)
+    button.btn.btn-primary Update

@@ -4,18 +4,24 @@ html
     title= title
     != css('client')
   body.userNotFetched
-    .navbar.navbar-inverse.navbar-fixed-top
+    .navbar.navbar-fixed-top
       .navbar-inner
         .container-fluid
           a.brand(href='/') Home
           p.navbar-text.pull-right
-            span.withUser
-              | Logged in as 
-              a#currentUser.navbar-link(href='#')
-            span.withUser
-              button#signOut Sign out
-            span.withoutUser
-              a#signInButton(href='#signInModal', data-toggle='modal', data-target='#signInModal') Sign in
+            ul.nav.pull-right
+              li.dropdown.withUser
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+                  span#currentUser
+                  b.caret
+                ul.dropdown-menu(role='menu')
+                  li
+                    a(href='/me') Profile
+                  li.divider
+                  li
+                    a#signOutButton(href='#') Sign out
+              li.withoutUser
+                a#signInButton(href='#signInModal', data-toggle='modal', data-target='#signInModal') Sign in
     #main.container-fluid
       block content
     include users/signInModal
