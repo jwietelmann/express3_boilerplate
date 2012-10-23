@@ -5,10 +5,9 @@ Express3 app with mongoose, passport, redis sessions, shared server/client jade 
 
 All user-specific UI elements (except in the ```/me``` routes) are handled with an AJAX call after the page loads. This will make the pages more cache-friendly when it comes time to scale.
 
+The following will do ```npm install``` as well as copy and fetch client-side libraries to ```public``` and ```assets```:
+
 ```
-npm install
-chmod +x bootstrap.sh
-./bootstrap.sh
-chmod +x backbone.sh
-./backbone.sh
+chmod +x setup.sh
+./setup.sh
 ```

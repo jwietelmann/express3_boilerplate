@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express')
+var config = require('./config')
+  , express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
@@ -42,7 +43,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 // connect the database
-mongoose.connect('mongodb://localhost/boilerplate');
+mongoose.connect(config.db);
 
 // create app, server, and web sockets
 var app = express()
@@ -62,10 +63,10 @@ app.configure(function(){
   app.use(require('connect-assets')());
 
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  app.use(express.logger(config.loggerFormat));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
+  app.use(express.cookieParser(config.sessionSecret));
   app.use(express.session({ store: new RedisStore() }));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -73,10 +74,8 @@ app.configure(function(){
   
   app.use(require('less-middleware')({ src: __dirname + '/public' }));
   app.use(express.static(path.join(__dirname, 'public')));
-});
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
+  if(config.useErrorHandler) app.use(express.errorHandler());
 });
 
 // API routes
