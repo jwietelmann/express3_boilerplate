@@ -7,7 +7,9 @@
   App.Mixins = {};
 
   App.Models.Base = Backbone.Model.extend({
+
     idAttribute: '_id',
+    
     urlRoot: function() {
       return '/api/' + this.resource;
     }
