@@ -3,7 +3,7 @@ html
   head
     title= title
     != css('client')
-  body.noUser
+  body.userNotFetched
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container-fluid
@@ -11,7 +11,9 @@ html
           p.navbar-text.pull-right
             span.withUser
               | Logged in as 
-              a.navbar-link(href='#') Username
+              a#currentUser.navbar-link(href='#')
+            span.withUser
+              button#signOut Sign out
             span.withoutUser
               a#signInButton(href='#signInModal', data-toggle='modal', data-target='#signInModal') Sign in
     #main.container-fluid

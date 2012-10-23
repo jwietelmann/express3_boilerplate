@@ -3,11 +3,23 @@
     button.close(data-dismiss='modal') &times;
     h3 Sign In or Sign Up
   .modal-body
-    h4 Use one of the following options:
+    h4 Social Connect
     ul
       li
         a(href='/auth/twitter', target='_blank') Twitter
       li
         a(href='/auth/facebook', target='_blank') Facebook
+    h4 Email Signin
+    form(action='/auth/email', method='post', target='_blank')
+      input(name='email', type='text', placeholder='Email')
+      input(name='password', type='password', placeholder='Password')
+      input.btn(type='submit') Sign in
+    h4 Email Registration
+    form(action='/auth/register', method='post', target='_blank')
+      input(name='email', type='text', placeholder='Email')
+      input(name='name', type='text', placeholder='Username')
+      input(name='password', type='password', placeholder='Password')
+      input(name='passwordConfirm', type='password', placeholder='Password (confirm)')
+      input.btn(type='submit') Register
   .modal-footer
     a.btn(href='#', data-dismiss='modal') Cancel

@@ -3,6 +3,11 @@
 body {
   padding-top: 60px;
   padding-bottom: 40px;
+  &.userNotFetched {
+    .withoutUser, .withUser {
+      display: none;
+    }
+  }
   &.hasUser {
     .withoutUser {
       display: none;
