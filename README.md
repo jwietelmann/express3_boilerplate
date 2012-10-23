@@ -1,13 +1,15 @@
 express3_boilerplate
 ====================
 
+# Overview
 Express3 app with mongoose, passport, redis sessions, shared server/client jade templates, twitter bootstrap LESS, socket.io, and separate routes for UI and API functionality
 
-All user-specific UI elements (except in the ```/me``` routes) are handled with an AJAX call after the page loads. This will make the pages more cache-friendly when it comes time to scale.
+# Setup
+Just clone the repo and run ```chmod +x setup.sh && ./setup.sh``` from your terminal.
 
-The following will do ```npm install``` as well as copy and fetch client-side libraries to ```public``` and ```assets```:
+# Configuration
+```config/index.js``` is designed to automatically require and export a configuration file that is named according to your ```NODE_ENV``` environment variable, e.g., ```config/development.js``` or ```config/production.js```.
 
-```
-chmod +x setup.sh
-./setup.sh
-```
+# Response Caching
+While there is no caching out of the box, all user-specific UI elements (except in the ```/me``` routes) are handled with an AJAX call after the page loads. Continuing to keep user-specific UI out of the initial page load will make the application more caching-friendly when the time comes.
+
