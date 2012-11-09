@@ -6,6 +6,9 @@
 //= require baseClasses
 //= require_tree ./models
 
+// bootstrap hack to stop dropdowns from disappearing on mobile
+$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+
 (function(App) {
 
   _.extend(App, {
