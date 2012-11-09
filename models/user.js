@@ -56,4 +56,36 @@ UserSchema.static('authEmail', function(email, password, callback) {
   });
 });
 
+UserSchema.static('authTwitter', function(token, tokenSecret, profile, callback) {
+  this.findOne({ 'twitter.id': profile.id }).exec(function(err, user) {
+    if(err) return callback(err);
+
+    if(!user) user = new exports.model({ name: profile.displayName });
+    user.twitter = profile;
+    user.markModified('twitter');
+
+    user.save(function(err, user) {
+      if(err) return callback(err);
+
+      return callback(null, user);
+    });
+  });
+});
+
+UserSchema.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
+  this.findOne({ 'facebook.id': profile.id }).exec(function(err, user) {
+    if(err) return callback(err);
+
+    if(!user) user = new exports.model({ name: profile.displayName });
+    user.facebook = profile;
+    user.markModified('facebook');
+
+    user.save(function(err, user) {
+      if(err) return callback(err);
+
+      return callback(null, user);
+    });
+  });
+});
+
  User = module.exports = mongoose.model('User', UserSchema);
