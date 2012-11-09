@@ -1,10 +1,18 @@
-var User = require("../../models").User;
+var passport = require('passport')
+  , User = require("../../models").User
+;
+
+exports.email = passport.authenticate('local', {
+  successRedirect: '/auth/finish',
+  failureRedirect: '/auth/email',
+  failureFlash: true 
+});
 
 exports.register = function(req, res) {
   User.registerEmail(req.body.name, req.body.email, req.body.password, req.body.passwordConfirm,
     function(err, user) {
       if(err) return res.send(500);
-      res.json(user);
+      exports.email(req, res);
     }
   );
 };

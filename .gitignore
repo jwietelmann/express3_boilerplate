@@ -1,9 +1,3 @@
 .DS_Store
 */.DS_Store
 node_modules
-assets/js/bootstrap
-assets/js/underscore.js
-assets/js/backbone.js
-assets/js/jquery.js
-assets/css/bootstrap
-public/img

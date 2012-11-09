@@ -15,10 +15,16 @@
     "mongoose-types": "*",
     "passport": "*",
     "passport-local": "*",
+    "passport-twitter": "*",
+    "passport-facebook": "*",
     "bcrypt": "*",
     "connect-assets": "*",
     "socket.io": "*",
+    "socket.io-client": "*",
+    "passport.socketio": "*",
+    "connect-mongo": "*",
     "connect-redis": "*",
-    "twitter-bootstrap": "*"
+    "twitter-bootstrap": "*",
+    "async": "*"
   }
 }

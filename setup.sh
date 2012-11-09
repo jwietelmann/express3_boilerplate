@@ -18,3 +18,6 @@ rm assets/js/bootstrap/.jshintrc
 # Fetch Underscore and Backbone into assets
 curl http://underscorejs.org/underscore.js > assets/js/underscore.js
 curl http://backbonejs.org/backbone.js > assets/js/backbone.js
+
+# Copy socket.io client to assets
+cp node_modules/socket.io-client/dist/socket.io.js assets/js/socket.io.js

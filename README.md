@@ -2,7 +2,7 @@ express3_boilerplate
 ====================
 
 # Overview
-Express3 app with mongoose, passport, redis sessions, shared server/client jade templates, twitter bootstrap LESS, socket.io, and separate routes for UI and API functionality
+Express3 app with mongoose, passport, mongo sessions, shared server/client jade templates, twitter bootstrap LESS, socket.io, and separate routes for UI and API functionality
 
 # Setup
 Just clone the repo and run ```chmod +x setup.sh && ./setup.sh``` from your terminal.
