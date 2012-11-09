@@ -10,7 +10,7 @@ var mongoose = exports.mongoose = require('mongoose')
 mongooseTypes.loadTypes(mongoose, "email");
 var Email = Schema.Types.Email;
 
-UserSchema = new Schema({
+exports = module.exports = new Schema({
 
   name: { type: String },
   email: { type: Email },
@@ -19,7 +19,7 @@ UserSchema = new Schema({
 
 });
 
-UserSchema.virtual('password')
+exports.virtual('password')
   .get(function() {
     return this._password;
   })
@@ -30,11 +30,11 @@ UserSchema.virtual('password')
   })
 ;
 
-UserSchema.method('checkPassword', function(password, callback) {
+exports.method('checkPassword', function(password, callback) {
   bcrypt.compare(password, this.hash, callback);
 });
 
-UserSchema.static('registerEmail', function(name, email, password, passwordConfirm, callback) {
+exports.static('registerEmail', function(name, email, password, passwordConfirm, callback) {
   if(password != passwordConfirm) return callback('PASSWORD_MISMATCH', false);
   var user = new this({ name: name, email: email, password: password });
   user.save(function(err, user) {
@@ -43,7 +43,7 @@ UserSchema.static('registerEmail', function(name, email, password, passwordConfi
   });
 });
 
-UserSchema.static('authEmail', function(email, password, callback) {
+exports.static('authEmail', function(email, password, callback) {
   this.findOne({ email: email }, function(err, user) {
     if(err) return callback(err);
     if(!user) return callback(null, false);
@@ -56,7 +56,7 @@ UserSchema.static('authEmail', function(email, password, callback) {
   });
 });
 
-UserSchema.static('authTwitter', function(token, tokenSecret, profile, callback) {
+exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
   this.findOne({ 'twitter.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
@@ -72,7 +72,7 @@ UserSchema.static('authTwitter', function(token, tokenSecret, profile, callback)
   });
 });
 
-UserSchema.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
+exports.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
   this.findOne({ 'facebook.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
@@ -87,5 +87,3 @@ UserSchema.static('authFacebook', function(accessToken, refreshToken, profile, c
     });
   });
 });
-
- User = module.exports = mongoose.model('User', UserSchema);
