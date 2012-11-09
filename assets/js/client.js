@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery.validate
 //= require bootstrapManifest
 //= require underscore
 //= require backbone

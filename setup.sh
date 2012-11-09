@@ -6,6 +6,9 @@ npm install
 # Fetch latest stable jQuery into assets
 curl http://code.jquery.com/jquery.js > assets/js/jquery.js
 
+# Fetch jQuery.validate 1.10.0 into assets
+curl https://raw.github.com/jzaefferer/jquery-validation/1.10.0/jquery.validate.js > assets/js/jquery.validate.js
+
 # Copy Twitter Bootstrap LESS and Javascript from node module to assets directories
 cp -rf node_modules/twitter-bootstrap/less/ assets/css/bootstrap
 cp -rf node_modules/twitter-bootstrap/js/ assets/js/bootstrap
