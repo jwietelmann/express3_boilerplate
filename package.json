@@ -13,6 +13,7 @@
     "less-middleware": "*",
     "mongoose": "*",
     "mongoose-types": "*",
+    "mongoose-3x-auth": "*",
     "passport": "*",
     "passport-local": "*",
     "passport-twitter": "*",
@@ -26,5 +27,8 @@
     "connect-redis": "*",
     "twitter-bootstrap": "*",
     "async": "*"
+  },
+  "devDependencies": {
+    "supervisor":"*"
   }
 }
