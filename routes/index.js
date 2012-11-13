@@ -24,6 +24,8 @@ for(var i = 0; i < routeDirs.length; i++) {
 
       // raw filename like 'users.js'
       var resourceFileName = resourceFiles[j];
+      if(resourceFileName.match('.swp'))
+        continue;
       var resourceFilePath = routeDirPath + '/' + resourceFileName;
       console.log(resourceFilePath);
 
