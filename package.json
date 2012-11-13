@@ -26,5 +26,8 @@
     "connect-redis": "*",
     "twitter-bootstrap": "*",
     "async": "*"
+  },
+  "devDependencies": {
+    "supervisor":"*"
   }
 }
