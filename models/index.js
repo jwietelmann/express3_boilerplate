@@ -7,7 +7,10 @@ var fs = require('fs')
 var modelFiles = fs.readdirSync(__dirname);
 for(var i = 0; i < modelFiles.length; i++) {
   // remove the .js so it's just 'user'
-  var modelName = modelFiles[i].split('.')[0];
+  var modelFileName = modelFiles[i];
+  if(modelFileName.match('.swp'))
+    continue;
+  var modelName = modelFileName.split('.')[0];
 
   if(modelName == 'index') continue; // skip this file
 
