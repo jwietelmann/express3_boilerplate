@@ -27,8 +27,10 @@ for(var i = 0; i < routeDirs.length; i++) {
       var resourceFilePath = routeDirPath + '/' + resourceFileName;
       console.log(resourceFilePath);
 
-      // remove the .js so it's just 'users'
-      var resourceName = resourceFileName.split('.')[0];
+      // remove the file extension so it's just 'users'
+      var parts = resourceFileName.split('.');
+      if(parts[parts.length-1] != 'js') continue; // skip non-javascript files
+      var resourceName = parts[0];
 
       // exports.ui.users = require('/Users/somebody/my_project/routes/ui/users.js')  <-- what happens
       routeTypeObject[resourceName] = require(resourceFilePath);

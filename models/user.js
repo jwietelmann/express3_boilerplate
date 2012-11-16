@@ -3,7 +3,6 @@ var mongoose = exports.mongoose = require('mongoose')
   , mongooseTypes = require('mongoose-types')
   , bcrypt = require('bcrypt')
   , Schema = mongoose.Schema
-  , mongooseAuth = exports.mongooseAuth = require('mongoose-3x-auth')
   , UserSchema
   , User
 ;
