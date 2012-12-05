@@ -26,9 +26,9 @@ $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropa
 
       this.setupCurrentUser();
 
-      $('#signOutButton').on('click', function(e) {
+      $('#logoutButton').on('click', function(e) {
         e.preventDefault();
-        _this.signOut();
+        _this.logout();
       });
     },
 
@@ -54,16 +54,20 @@ $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropa
       });
     },
 
-    signInComplete: function() {
+    authSuccess: function() {
       this.setupCurrentUser();
       $('#signInModal').modal('hide');
     },
 
-    signOut: function() {
+    authFailure: function() {
+      alert('TODO: Implement App.authFailure()');
+    },
+
+    logout: function() {
       var _this = this;
 
       $.ajax({
-        url: '/auth/signOut',
+        url: '/auth/logout',
         success: function() {
           _this.setSignedOut();
         }

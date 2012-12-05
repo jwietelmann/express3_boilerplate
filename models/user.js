@@ -31,6 +31,14 @@ exports.method('checkPassword', function(password, callback) {
   bcrypt.compare(password, this.hash, callback);
 });
 
+exports.static('authGuest', function(name, password, callback) {
+  var user = new this({ name: name });
+  user.save(function(err, user) {
+    if(err) callback(err, false);
+    callback(null, user);
+  });
+});
+
 exports.static('registerEmail', function(name, email, password, passwordConfirm, callback) {
   if(password != passwordConfirm) return callback('PASSWORD_MISMATCH', false);
   var user = new this({ name: name, email: email, password: password });

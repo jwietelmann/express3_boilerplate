@@ -12,17 +12,34 @@ var config = require('./config')
   , socketIo = require('socket.io')
   , passportSocketIo = require('passport.socketio')
   , mongoose = require('mongoose')
+  , connectAssets = require('connect-assets')
+  , lessMiddleware = require('less-middleware')
   , models = require('./models')
   , User = models.User
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
+  , TwitterStrategy = require('passport-twitter').Strategy
+  , FacebookStrategy = require('passport-facebook').Strategy
   , MongoStore = require('connect-mongo')(express)
   , sessionStore = new MongoStore({ url: config.mongodb })
 ;
 
 // set up passport authentication
+if(config.enableGuestLogin) {
+  passport.use('guest', new LocalStrategy(
+    {
+      usernameField: 'name',
+    },
+    // doesn't actually use password, just records name
+    function(name, password, done) {
+      process.nextTick(function() {
+        User.authGuest(name, done);
+      });
+    }
+  ));
+}
 if(config.enableEmailLogin) {
-  passport.use(new LocalStrategy(
+  passport.use('email', new LocalStrategy(
     {
       usernameField: 'email'
     },
@@ -34,7 +51,6 @@ if(config.enableEmailLogin) {
   ));
 }
 if(config.twitter) {
-  var TwitterStrategy = require('passport-twitter').Strategy;
   passport.use(new TwitterStrategy(
     config.twitter,
     function(token, tokenSecret, profile, done) {
@@ -45,7 +61,6 @@ if(config.twitter) {
   ));
 }
 if(config.facebook) {
-  var FacebookStrategy = require('passport-facebook').Strategy;
   passport.use(new FacebookStrategy(
     config.facebook,
     function(accessToken, refreshToken, profile, done) {
@@ -105,7 +120,7 @@ app.configure(function(){
   global.jadeTemplates = function() { return '<script src="' + jadeTemplatesSrc + '" type="text/javascript"></script>'; }
 
   // use the connect assets middleware for Snockets sugar
-  app.use(require('connect-assets')());
+  app.use(connectAssets());
 
   app.use(express.favicon());
   app.use(express.logger(config.loggerFormat));
@@ -117,7 +132,7 @@ app.configure(function(){
   app.use(passport.session());
   app.use(app.router);
   
-  app.use(require('less-middleware')({ src: __dirname + '/public' }));
+  app.use(lessMiddleware({ src: __dirname + '/public' }));
   app.use(express.static(path.join(__dirname, 'public')));
 
   if(config.useErrorHandler) app.use(express.errorHandler());
@@ -153,9 +168,25 @@ app.all('/api/*', function(req, res) { res.json(res.jsonData); });
     });
   };
 */
-app.get('/', routes.ui.index.list);
-app.post('/auth/register', routes.ui.auth.register);
-app.post('/auth/email', routes.ui.auth.email);
+
+// home
+app.get('/', routes.ui.home);
+
+// currently logged-in user
+app.get('/me', routes.ui.me.show);
+app.put('/me', routes.ui.me.update);
+
+// user profiles
+app.get('/users/:id', routes.ui.users.show);
+
+// authentication
+if(config.enableGuestLogin) {
+  app.post('/auth/guest', routes.ui.auth.guest);
+}
+if(config.enableEmailLogin) {
+  app.post('/auth/registerEmail', routes.ui.auth.registerEmail);
+  app.post('/auth/email', routes.ui.auth.email);
+}
 if(config.twitter) {
   app.get('/auth/twitter', routes.ui.auth.twitter);
   app.get('/auth/twitter/callback', routes.ui.auth.twitterCallback);
@@ -164,11 +195,9 @@ if(config.facebook) {
   app.get('/auth/facebook', routes.ui.auth.facebook);
   app.get('/auth/facebook/callback', routes.ui.auth.facebookCallback);
 }
-app.get('/auth/finish', routes.ui.auth.finish);
-app.get('/auth/signOut', routes.ui.auth.signOut);
-app.get('/me', routes.ui.me.show);
-app.put('/me', routes.ui.me.update);
-app.get('/users/:id', routes.ui.users.show);
+app.get('/auth/success', routes.ui.auth.success);
+app.get('/auth/failure', routes.ui.auth.failure)
+app.get('/auth/logout', routes.ui.auth.logout);
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
