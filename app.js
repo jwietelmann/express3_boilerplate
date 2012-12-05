@@ -150,10 +150,22 @@ app.configure(function(){
     next();
   };
 */
+var sendJson = function(req, res) { res.json(res.jsonData); }
 app.get('/api/me', routes.api.me.show);
 app.get('/api/users/:id', routes.api.users.show);
-// this catch-all route will send JSON for every API route
-app.all('/api/*', function(req, res) { res.json(res.jsonData); });
+
+// this catch-all route will send JSON for every API route that falls through to this point in the chain
+// WARNING: Sometimes they don't fall through to this point in the chain! Example:
+//
+// app.get('/api/users/someNonStandardService', routes.api.users.someNonStandardService);
+// app.get('/api/users/:id', routes.api.users.show)
+//
+// In this case the next() of `someNonStandardService` is the `show` route, but we want to send json
+// So explicitly tell the `someNonStandardService` that its `next` is the `sendJson` function:
+//
+// app.get('/api/users/someNonStandardService', routes.api.users.someNonStandardService, sendJson);
+// 
+app.all('/api/*', sendJson);
 
 // UI routes
 // Within each UI route function, call the corresponding API function.
