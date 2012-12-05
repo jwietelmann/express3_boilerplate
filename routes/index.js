@@ -25,7 +25,6 @@ for(var i = 0; i < routeDirs.length; i++) {
       // raw filename like 'users.js'
       var resourceFileName = resourceFiles[j];
       var resourceFilePath = routeDirPath + '/' + resourceFileName;
-      console.log(resourceFilePath);
 
       // remove the file extension so it's just 'users'
       var parts = resourceFileName.split('.');

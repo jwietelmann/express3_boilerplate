@@ -3,8 +3,6 @@ var mongoose = exports.mongoose = require('mongoose')
   , mongooseTypes = require('mongoose-types')
   , bcrypt = require('bcrypt')
   , Schema = mongoose.Schema
-  , UserSchema
-  , User
 ;
 mongooseTypes.loadTypes(mongoose, "email");
 var Email = Schema.Types.Email;

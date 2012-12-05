@@ -1,4 +1,7 @@
+var users = require('../api/users');
 
 exports.show = function(req, res) {
-  res.render('users/show');
+  users.show(req, res, function() { 
+    res.render('users/show');
+  });
 };

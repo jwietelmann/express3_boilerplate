@@ -7,7 +7,7 @@ var fs = require('fs')
 var modelFiles = fs.readdirSync(__dirname);
 for(var i = 0; i < modelFiles.length; i++) {
   var parts = modelFiles[i].split('.');
-  if(parts[parts.length-1] != '.js') continue; // skip non-js files
+  if(parts[parts.length-1] != 'js') continue; // skip non-js files
   
   // remove the extension so it's just 'user'
   var modelName = parts[0];
