@@ -1,8 +1,10 @@
 exports.loggerFormat = 'dev';
 exports.useErrorHandler = true;
-exports.enableEmailLogin = true;
 exports.mongodb = 'mongodb://localhost/boilerplate';
 exports.sessionSecret = 'your secret here';
+
+exports.enableGuestLogin = true;
+exports.enableEmailLogin = true;
 exports.twitter = {
   consumerKey: 'my consumer key',
   consumerSecret: 'my consumer secret'

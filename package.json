@@ -28,6 +28,6 @@
     "async": "*"
   },
   "devDependencies": {
-    "supervisor":"*"
+    "supervisor": "*"
   }
 }

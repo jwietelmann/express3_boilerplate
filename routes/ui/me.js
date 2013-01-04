@@ -1,14 +1,13 @@
+var me = require('../api/me');
 
-
-exports.index = function(req, res) {
-  res.render('me/index', { title: "Profile", user: req.user });
+exports.show = function(req, res) {
+  me.show(req, res, function() {
+    res.render('me/index', { title: "Profile", user: req.user });
+  });
 };
 
 exports.update = function(req, res) {
-  var user = req.user;
-  user.email = req.body.email;
-  user.email = req.body.email;
-  user.save(function(err, user) {
+  me.update(req, res, function() {
     res.redirect('/me');
   });
 };

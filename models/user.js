@@ -3,8 +3,6 @@ var mongoose = exports.mongoose = require('mongoose')
   , mongooseTypes = require('mongoose-types')
   , bcrypt = require('bcrypt')
   , Schema = mongoose.Schema
-  , UserSchema
-  , User
 ;
 mongooseTypes.loadTypes(mongoose, "email");
 var Email = Schema.Types.Email;
@@ -31,6 +29,14 @@ exports.virtual('password')
 
 exports.method('checkPassword', function(password, callback) {
   bcrypt.compare(password, this.hash, callback);
+});
+
+exports.static('authGuest', function(name, password, callback) {
+  var user = new this({ name: name });
+  user.save(function(err, user) {
+    if(err) callback(err, false);
+    callback(null, user);
+  });
 });
 
 exports.static('registerEmail', function(name, email, password, passwordConfirm, callback) {

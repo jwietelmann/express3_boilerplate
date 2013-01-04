@@ -6,11 +6,11 @@ var fs = require('fs')
 // get the subdirectories
 var modelFiles = fs.readdirSync(__dirname);
 for(var i = 0; i < modelFiles.length; i++) {
-  // remove the .js so it's just 'user'
-  var modelFileName = modelFiles[i];
-  if(modelFileName.match('.swp'))
-    continue;
-  var modelName = modelFileName.split('.')[0];
+  var parts = modelFiles[i].split('.');
+  if(parts[parts.length-1] != 'js') continue; // skip non-js files
+  
+  // remove the extension so it's just 'user'
+  var modelName = parts[0];
 
   if(modelName == 'index') continue; // skip this file
 
