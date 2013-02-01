@@ -103,6 +103,11 @@ io.set('authorization', passportSocketIo.authorize({
     accept(null, true);
   }
 }));
+// Heroku doesn't support WebSockets, so use long-polling for Heroku
+if(config.socketIo && config.socketIo.useLongPolling) {
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10);
+}
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
