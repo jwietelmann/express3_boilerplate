@@ -12,7 +12,9 @@ exports = module.exports = new Schema({
   name: { type: String },
   email: { type: Email },
   salt: { type: String },
-  hash: { type: String }
+  hash: { type: String },
+  facebook: {},
+  twitter: {}
 
 });
 
@@ -62,10 +64,11 @@ exports.static('authEmail', function(email, password, callback) {
 });
 
 exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
+  var _this = this;
   this.findOne({ 'twitter.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
-    if(!user) user = new exports.model({ name: profile.displayName });
+    if(!user) user = new _this({ name: profile.displayName });
     user.twitter = profile;
     user.markModified('twitter');
 
@@ -78,10 +81,11 @@ exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
 });
 
 exports.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
+  var _this = this;
   this.findOne({ 'facebook.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
-    if(!user) user = new exports.model({ name: profile.displayName });
+    if(!user) user = new _this({ name: profile.displayName });
     user.facebook = profile;
     user.markModified('facebook');
 
