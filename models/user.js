@@ -6,6 +6,7 @@ var mongoose = exports.mongoose = require('mongoose')
 ;
 mongooseTypes.loadTypes(mongoose, "email");
 var Email = Schema.Types.Email;
+var Mixed = Schema.Types.Mixed;
 
 exports = module.exports = new Schema({
 
@@ -13,8 +14,7 @@ exports = module.exports = new Schema({
   email: { type: Email },
   salt: { type: String },
   hash: { type: String },
-  facebook: {},
-  twitter: {}
+  profiles: { type: Mixed }
 
 });
 
@@ -65,11 +65,12 @@ exports.static('authEmail', function(email, password, callback) {
 
 exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
   var _this = this;
-  this.findOne({ 'twitter.id': profile.id }).exec(function(err, user) {
+  this.findOne({ 'profiles.twitter.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
     if(!user) user = new _this({ name: profile.displayName });
-    user.twitter = profile;
+    user.profiles = user.profiles || {};
+    user.profiles.twitter = profile;
     user.markModified('twitter');
 
     user.save(function(err, user) {
@@ -82,11 +83,12 @@ exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
 
 exports.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
   var _this = this;
-  this.findOne({ 'facebook.id': profile.id }).exec(function(err, user) {
+  this.findOne({ 'profiles.facebook.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
     if(!user) user = new _this({ name: profile.displayName });
-    user.facebook = profile;
+    user.profiles = user.profiles || {};
+    user.profiles.facebook = profile;
     user.markModified('facebook');
 
     user.save(function(err, user) {
