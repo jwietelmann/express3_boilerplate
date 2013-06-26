@@ -12,7 +12,8 @@ exports = module.exports = new Schema({
   name: { type: String },
   email: { type: Email },
   salt: { type: String },
-  hash: { type: String }
+  hash: { type: String },
+  profiles: { type: {}, default: {} }
 
 });
 
@@ -62,12 +63,12 @@ exports.static('authEmail', function(email, password, callback) {
 });
 
 exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
-  this.findOne({ 'twitter.id': profile.id }).exec(function(err, user) {
+  this.findOne({ 'profiles.twitter.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
     if(!user) user = new exports.model({ name: profile.displayName });
-    user.twitter = profile;
-    user.markModified('twitter');
+    user.profiles.twitter = profile;
+    user.markModified('profiles.twitter');
 
     user.save(function(err, user) {
       if(err) return callback(err);
@@ -78,12 +79,12 @@ exports.static('authTwitter', function(token, tokenSecret, profile, callback) {
 });
 
 exports.static('authFacebook', function(accessToken, refreshToken, profile, callback) {
-  this.findOne({ 'facebook.id': profile.id }).exec(function(err, user) {
+  this.findOne({ 'profiles.facebook.id': profile.id }).exec(function(err, user) {
     if(err) return callback(err);
 
     if(!user) user = new exports.model({ name: profile.displayName });
-    user.facebook = profile;
-    user.markModified('facebook');
+    user.profiles.facebook = profile;
+    user.markModified('profiles.facebook');
 
     user.save(function(err, user) {
       if(err) return callback(err);
