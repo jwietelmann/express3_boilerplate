@@ -92,10 +92,11 @@ var app = express()
 io.set('log level', 1);
 // Give socket.io access to the passport user from Express
 io.set('authorization', passportSocketIo.authorize({
+  cookieParser: express.cookieParser(),
   passport: passport,
-  sessionKey: 'connect.sid',
-  sessionStore: sessionStore,
-  sessionSecret: config.sessionSecret,
+  key: 'connect.sid',
+  store: sessionStore,
+  secret: config.sessionSecret,
   success: function(data, accept) {
     accept(null, true);
   },
