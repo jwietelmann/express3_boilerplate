@@ -14,6 +14,20 @@ exports.email = passport.authenticate('email', {
   failureFlash: true
 });
 
+exports.facebook = passport.authenticate('facebook');
+exports.facebookCallback = passport.authenticate('facebook', {
+  successRedirect: '/auth/success',
+  failureRedirect: '/auth/failure',
+  failureFlash: true
+});
+
+exports.twitter = passport.authenticate('twitter');
+exports.twitterCallback = passport.authenticate('twitter', {
+  successRedirect: '/auth/success',
+  failureRedirect: '/auth/failure',
+  failureFlash: true
+});
+
 exports.registerEmail = function(req, res) {
   User.registerEmail(req.body.name, req.body.email, req.body.password, req.body.passwordConfirm,
     function(err, user) {
